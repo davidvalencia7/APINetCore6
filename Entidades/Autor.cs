@@ -20,8 +20,8 @@ namespace WebAPIAutores.Entidades
         //[Url]
         //[NotMapped]
         //public string URL { get; set; }
-        public int Menor { get; set; }
-        public int Mayor { get; set; }
+        //public int Menor { get; set; }
+        //public int Mayor { get; set; }
         public List<Libro> Libros { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -32,8 +32,8 @@ namespace WebAPIAutores.Entidades
                 if(primeraLetra != primeraLetra.ToUpper())
                     yield return new ValidationResult("La primera letra debe ser mayuscula", new string[] {nameof(Nombre)});
 
-                if(Menor > Mayor)
-                    yield return new ValidationResult("Este valor no puede ser mas grande que el campo mayor", new[] {nameof(Menor)});
+                //if(Menor > Mayor)
+                //    yield return new ValidationResult("Este valor no puede ser mas grande que el campo mayor", new[] {nameof(Menor)});
 
             }
         }
