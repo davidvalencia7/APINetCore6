@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPIAutores.Entidades;
+using WebAPIAutores.Servicios;
 
 namespace WebAPIAutores.Controllers
 {
@@ -9,9 +10,12 @@ namespace WebAPIAutores.Controllers
     public class AutoresController : ControllerBase
     {
         private readonly ApplicationDbContext context;
-        public AutoresController(ApplicationDbContext context)
+        private readonly IServicio servicio;
+
+        public AutoresController(ApplicationDbContext context, IServicio servicio)
         {
             this.context = context;
+            this.servicio = servicio
         }
 
         [HttpGet]// api/autores
