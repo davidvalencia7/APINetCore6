@@ -15,7 +15,7 @@
         }
         public void RealizarTarea()
         {
-            throw new NotImplementedException();
+            
         }
 
         
@@ -25,7 +25,7 @@
     {
         public void RealizarTarea()
         {
-            throw new NotImplementedException();
+            
         }
 
 

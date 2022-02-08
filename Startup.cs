@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using WebAPIAutores.Servicios;
 
 namespace WebAPIAutores
 {
@@ -20,6 +21,9 @@ namespace WebAPIAutores
             //services.AddEndpointsApiExplorer();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+
+            services.AddSingleton<IServicio, ServicioA>();
+            //services.AddTransient<ServicioA>();
 
             services.AddSwaggerGen(c =>
                 {

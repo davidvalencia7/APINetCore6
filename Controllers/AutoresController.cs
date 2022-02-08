@@ -15,7 +15,7 @@ namespace WebAPIAutores.Controllers
         public AutoresController(ApplicationDbContext context, IServicio servicio)
         {
             this.context = context;
-            this.servicio = servicio
+            this.servicio = servicio;
         }
 
         [HttpGet]// api/autores
