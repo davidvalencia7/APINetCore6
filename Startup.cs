@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using WebAPIAutores.Filtros;
 using WebAPIAutores.Middlewares;
 using WebAPIAutores.Servicios;
 
@@ -18,7 +19,11 @@ namespace WebAPIAutores
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            services.AddControllers( options =>
+            {
+                options.Filters.Add(typeof(FiltroDeExcepcion));
+            })
+              .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //services.AddEndpointsApiExplorer();
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -30,6 +35,7 @@ namespace WebAPIAutores
             services.AddScoped<ServicioScoped>();
             services.AddSingleton<ServicioSinglenton>();
             //services.AddTransient<ServicioA>();
+            services.AddTransient<MiFiltroDeAccion>();
 
             services.AddResponseCaching();
 

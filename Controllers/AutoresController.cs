@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPIAutores.Entidades;
+using WebAPIAutores.Filtros;
 using WebAPIAutores.Servicios;
 
 namespace WebAPIAutores.Controllers
@@ -30,9 +31,11 @@ namespace WebAPIAutores.Controllers
         }
 
         [HttpGet("GUID")]
-        [ResponseCache(Duration = 10)]
+        //[ResponseCache(Duration = 10)]
+        [ServiceFilter(typeof(MiFiltroDeAccion))]
         public ActionResult obtenerGuids()
         {
+
             return Ok(new
             {
                 AutoresControllerTransient = servicioTransient.Guid,
@@ -49,9 +52,10 @@ namespace WebAPIAutores.Controllers
         [HttpGet("listado")]// api/autores/listado
         [HttpGet("/listado")]// listado
         [ResponseCache(Duration =10)]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<List<Autor>>> Get()
         {
+            throw new NotImplementedException();
             logger.LogInformation("Estamos obteniendo los autores");
             servicio.RealizarTarea();
             return await context.Autores.Include(x => x.Libros).ToListAsync();
