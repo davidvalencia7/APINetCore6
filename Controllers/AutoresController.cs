@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPIAutores.Entidades;
 using WebAPIAutores.Servicios;
@@ -29,6 +30,7 @@ namespace WebAPIAutores.Controllers
         }
 
         [HttpGet("GUID")]
+        [ResponseCache(Duration = 10)]
         public ActionResult obtenerGuids()
         {
             return Ok(new
@@ -46,6 +48,8 @@ namespace WebAPIAutores.Controllers
         [HttpGet]// api/autores
         [HttpGet("listado")]// api/autores/listado
         [HttpGet("/listado")]// listado
+        [ResponseCache(Duration =10)]
+        [Authorize]
         public async Task<ActionResult<List<Autor>>> Get()
         {
             logger.LogInformation("Estamos obteniendo los autores");

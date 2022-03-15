@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using WebAPIAutores.Middlewares;
@@ -29,6 +30,10 @@ namespace WebAPIAutores
             services.AddScoped<ServicioScoped>();
             services.AddSingleton<ServicioSinglenton>();
             //services.AddTransient<ServicioA>();
+
+            services.AddResponseCaching();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
             services.AddSwaggerGen(c =>
                 {
@@ -61,6 +66,8 @@ namespace WebAPIAutores
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseResponseCaching();
 
             app.UseAuthorization();
 
