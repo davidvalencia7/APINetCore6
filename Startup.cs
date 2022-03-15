@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using WebAPIAutores.Middlewares;
 using WebAPIAutores.Servicios;
 
 namespace WebAPIAutores
@@ -39,25 +40,8 @@ namespace WebAPIAutores
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
 
-            app.Use(async (context, next) =>
-            {
-                using(var ms = new MemoryStream())
-                {
-                    var cuerpoOriginalRespuesta = context.Response.Body;
-                    context.Response.Body = ms;
-
-                    await next.Invoke();
-
-                    ms.Seek(0, SeekOrigin.Begin);
-                    string respuesta = new StreamReader(ms).ReadToEnd();
-                    ms.Seek(0, SeekOrigin.Begin);
-
-                    await ms.CopyToAsync(cuerpoOriginalRespuesta);
-                    context.Response.Body = cuerpoOriginalRespuesta;
-
-                    logger.LogInformation(respuesta);
-                }
-            });
+            //app.UseMiddleware<LoguearRespuestaHTTPMiddleware>();
+            app.UseLoguearRespuestaHTTP();
 
             app.Map("/ruta1", app =>
             {
