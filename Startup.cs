@@ -36,8 +36,38 @@ namespace WebAPIAutores
             );
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+
+            app.Use(async (context, next) =>
+            {
+                using(var ms = new MemoryStream())
+                {
+                    var cuerpoOriginalRespuesta = context.Response.Body;
+                    context.Response.Body = ms;
+
+                    await next.Invoke();
+
+                    ms.Seek(0, SeekOrigin.Begin);
+                    string respuesta = new StreamReader(ms).ReadToEnd();
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    await ms.CopyToAsync(cuerpoOriginalRespuesta);
+                    context.Response.Body = cuerpoOriginalRespuesta;
+
+                    logger.LogInformation(respuesta);
+                }
+            });
+
+            app.Map("/ruta1", app =>
+            {
+                app.Run(async context =>
+                {
+                    await context.Response.WriteAsync("Estoy interceptando la tuberia");
+                });
+            });
+            
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
